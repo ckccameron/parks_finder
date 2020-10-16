@@ -14,6 +14,10 @@ require 'rails_helper'
 describe "parks index page" do
   describe "when a user selects a state from the form to find parks" do
     before :each do
+      response = File.read("spec/fixtures/tennessee_parks.json")
+      stub_request(:get, "https://developer.nps.gov/api/v1/parks?api_key=PoPD5xeyT2LkkVAzPQTxG9Q2oRyjduIlHkpps5kB&stateCode=TN").
+        to_return(status: 200, body: response, headers: {})
+
       visit root_path
 
       select :Tennessee, from: :state
@@ -28,15 +32,23 @@ describe "parks index page" do
 
     it "they should see full name, description, direction info and standard hours of operation for each park" do
       expect(current_path).to eq(parks_path)
-      within ".park" do
+
+      within first(".park") do
         expect(page).to have_css(".name")
-        expect(".name").to_not be_empty
+        name = find(".name").text
+        expect(name).to_not be_empty
+
         expect(page).to have_css(".description")
-        expect(".description").to_not be_empty
+        description = find(".description").text
+        expect(description).to_not be_empty
+
         expect(page).to have_css(".directions-info")
-        expect(".directions-info").to_not be_empty
+        directions_info = find(".directions-info").text
+        expect(directions_info).to_not be_empty
+
         expect(page).to have_css(".hours-of-operation")
-        expect(".hours-of-operation").to_not be_empty
+        hours_of_operation = find(".hours-of-operation").text
+        expect(hours_of_operation).to_not be_empty
       end
     end
   end
