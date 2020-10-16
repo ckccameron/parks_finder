@@ -2,7 +2,6 @@ class SearchFacade
   def self.parks(state)
     parks = service.get_parks(state)[:data]
     parks.map { |park_info| park(park_info)}
-    binding.pry
   end
 
   def self.service

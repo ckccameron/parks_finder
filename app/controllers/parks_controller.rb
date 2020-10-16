@@ -1,6 +1,6 @@
 class ParksController < ApplicationController
   def index
-    binding.pry
-
+    state = params[:state]
+    @parks = SearchFacade.parks(state)
   end
 end
