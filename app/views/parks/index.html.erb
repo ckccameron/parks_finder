@@ -1,6 +1,21 @@
+<h2><%= @parks.size %> Results</h2>
+
+<% @parks.each do |park| %>
 <section class="park">
-  <p class="name"></p>
-  <p class="description"></p>
-  <p class="directions-info"></p>
-  <p class="hours-of-operation"></p>
+  <p class="name">Name: <%= park.name %></p>
+  <p class="description">Description: <%= park.description %></p>
+  <p class="directions-info">Directions Info: <%= park.directions %></p>
+  <table class="hours-of-operation">
+    <tr>
+      <th>Day</th>
+      <th>Hours of Operation</th>
+    </tr>
+    <tr class="hours-info-row" id="park-#{park.id}">
+      <% park.standard_hours.each do |day_hours| %>
+        <td><%= day_hours.first.capitalize %></td>
+        <td><%= day_hours.last %></td>
+      <% end %>
+    </tr>
+  </table><br><br>
 </section>
+<% end %>
