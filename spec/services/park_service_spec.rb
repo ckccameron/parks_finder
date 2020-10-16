@@ -10,6 +10,10 @@ describe ParkService do
   end
 
   it "returns parks for a given state" do
+    response = File.read("spec/fixtures/tennessee_parks.json")
+    stub_request(:get, "https://developer.nps.gov/api/v1/parks?api_key=PoPD5xeyT2LkkVAzPQTxG9Q2oRyjduIlHkpps5kB&stateCode=TN").
+      to_return(status: 200, body: response, headers: {})
+      
     state = "TN"
     parks = @service.get_parks(state)
 
